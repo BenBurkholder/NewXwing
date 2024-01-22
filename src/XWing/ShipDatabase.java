@@ -106,7 +106,8 @@ public class ShipDatabase
     
     public void removeShip()
     {
-        shipList.remove(t);
+        // shipList.remove(t);
+        shipList.get(t).updateShipLocation(999,999,0);
     }
     
     public void nextTurn()
@@ -115,6 +116,14 @@ public class ShipDatabase
         setUndoShip(shipList.get(t));
         curShipName = shipList.get(t).getName();
     }
+
+    public void setTurn(int passedValue)
+    {
+        t = passedValue;
+        setUndoShip(shipList.get(t));
+        curShipName = shipList.get(t).getName();
+    }
+
     public void undo(){
         shipList.get(t).updateShipLocation(getUndoShip());
     }
@@ -146,6 +155,11 @@ public class ShipDatabase
     public String getShip()
     {
         return curShipName;
+    }
+
+    public String getShip(int shipNumber)
+    {
+        return shipList.get(shipNumber).getName();
     }
     
     // public void updateCoor()

@@ -61,9 +61,10 @@ public class XWingGUI extends JFrame //implements ActionListener
     private JButton nextShip;
     private JButton drawMap;
     private JButton PS;
-    private JButton undoMove;
-    private JButton openFile;
-
+    // private JButton undoMove;
+    // private JButton openFile;
+    // private ArrayList currentState;
+    // private int numberOfShips;
 
 
     private double CM = 11.81;
@@ -83,8 +84,13 @@ public class XWingGUI extends JFrame //implements ActionListener
     private final int BUTTON_ROW_4 = (int)(40 * CM);
     private final int BUTTON_ROW_5 = (int)(35 * CM);
     private final int BUTTON_ROW_6 = (int)(30 * CM);
+    private final int BUTTON_ROW_8 = (int)(70 * CM);
+    private final int BUTTON_ROW_9 = (int)(75 * CM);
+    private final int BUTTON_ROW_10 = (int)(80 * CM);
     
-    
+    int[] NEW_ROWS = new int[]{BUTTON_ROW_8,BUTTON_ROW_8,BUTTON_ROW_8,BUTTON_ROW_8,BUTTON_ROW_8,BUTTON_ROW_8,BUTTON_ROW_8,BUTTON_ROW_9,BUTTON_ROW_9,BUTTON_ROW_9,BUTTON_ROW_9,BUTTON_ROW_9,BUTTON_ROW_9,BUTTON_ROW_9,BUTTON_ROW_10,BUTTON_ROW_10,BUTTON_ROW_10,BUTTON_ROW_10,BUTTON_ROW_10,BUTTON_ROW_10,BUTTON_ROW_10};
+    int[] NEW_COLS = new int[]{BUTTON_COL_1,BUTTON_COL_2,BUTTON_COL_3,BUTTON_COL_4,BUTTON_COL_5,BUTTON_COL_6,BUTTON_COL_7,BUTTON_COL_1,BUTTON_COL_2,BUTTON_COL_3,BUTTON_COL_4,BUTTON_COL_5,BUTTON_COL_6,BUTTON_COL_7,BUTTON_COL_1,BUTTON_COL_2,BUTTON_COL_3,BUTTON_COL_4,BUTTON_COL_5,BUTTON_COL_6,BUTTON_COL_7};
+
     private final int BUTTON_HIGHT = 40;
     private final int BUTTON_WIDTH = (int)(7 * CM);
 
@@ -100,6 +106,7 @@ public class XWingGUI extends JFrame //implements ActionListener
     private JMenu fileMenu;
     private JMenuItem open;
     private JMenuItem exit;
+    private boolean arcStatus = false;
     
     
     //private ShipObject moves;
@@ -197,6 +204,25 @@ public class XWingGUI extends JFrame //implements ActionListener
         openFile.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 openFile();
+
+                
+                for(int i=0; i<game.listLength(); i++){
+                    JButton button = new JButton(game.getShip(i));
+                    button.setBounds(NEW_COLS[i], NEW_ROWS[i], BUTTON_WIDTH, BUTTON_HIGHT);
+                    panel.add(button);
+                    int tempNumber = i;
+                    button.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e){
+                            System.out.println("yay");                            
+                            System.out.println(Integer.toString(tempNumber));
+                            game.setTurn(tempNumber);
+                            turn.setText("Current Ship: " + game.getShip());
+                            plot(arcStatus);
+                        }
+                    });
+                    
+        
+                }
             }
         });
 
@@ -206,7 +232,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         panel.add(drawMap);
         drawMap.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -217,7 +243,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         s1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(0,1);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -228,7 +254,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         s2.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 game.stepMoveShip(0, 2);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -239,7 +265,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         s3.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 game.stepMoveShip(0, 3);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -250,7 +276,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         s4.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 game.stepMoveShip(0, 4);;
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -261,7 +287,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         s5.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 game.stepMoveShip(0, 5);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -272,7 +298,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         rb1.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(2, 1);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/RB2.png");
@@ -282,7 +308,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         rb2.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(2, 2);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/RB3.png");
@@ -292,7 +318,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         rb3.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(2, 3);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/LB1.png");
@@ -302,7 +328,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         lb1.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(1, 1);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/LB2.png");
@@ -312,7 +338,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         lb2.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(1, 2);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/LB3.png");
@@ -322,7 +348,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         lb3.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(1, 3);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/RT1.png");
@@ -332,7 +358,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         rt1.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(4, 1);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/RT2.png");
@@ -342,7 +368,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         rt2.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(4, 2);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/RT3.png");
@@ -352,7 +378,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         rt3.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(4, 3);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/LT1.png");
@@ -362,7 +388,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         lt1.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(3, 1);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/Lt2.png");
@@ -372,7 +398,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         lt2.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(3, 2);
-                plot(false);
+                plot(arcStatus);
             }
         });
         st = new ImageIcon("images/Lt3.png");
@@ -382,68 +408,68 @@ public class XWingGUI extends JFrame //implements ActionListener
         lt3.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.stepMoveShip(3, 3);
-                plot(false);
+                plot(arcStatus);
             }
         });
-        st = new ImageIcon("images/NewRound.png");
-        JButton nextTurn = new JButton(st);
-        nextTurn.setBounds(BUTTON_COL_7, BUTTON_ROW_1, BUTTON_WIDTH, BUTTON_HIGHT);
-        panel.add(nextTurn);
-        nextTurn.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-               game.nextTurn();
-               turn.setText("Current Ship: " + game.getShip());
-               plot(false);
-            }
-        });
+        // st = new ImageIcon("images/NewRound.png");
+        // JButton nextTurn = new JButton(st);
+        // nextTurn.setBounds(BUTTON_COL_7, BUTTON_ROW_1, BUTTON_WIDTH, BUTTON_HIGHT);
+        // panel.add(nextTurn);
+        // nextTurn.addActionListener(new ActionListener() {
+        //     public void actionPerformed(final ActionEvent e) {
+        //        game.nextTurn();
+        //        turn.setText("Current Ship: " + game.getShip());
+        //        plot(arcStatus);
+        //     }
+        // });
 
-        st = new ImageIcon("images/NextMove.png");
-        JButton nextShip = new JButton(st);
-        nextShip.setBounds(BUTTON_COL_7, BUTTON_ROW_5, BUTTON_WIDTH, BUTTON_HIGHT);
-        panel.add(nextShip);
-        nextShip.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-               try {
-                   game.nextShip();
-                   turn.setText("Current Ship: " + game.getShip());
-                   plot(false);
-               } catch (IndexOutOfBoundsException e1) {
-                   turn.setText("End of Round: Select Next Turn");
-               }
-            }
-        });
+        // st = new ImageIcon("images/NextMove.png");
+        // JButton nextShip = new JButton(st);
+        // nextShip.setBounds(BUTTON_COL_7, BUTTON_ROW_5, BUTTON_WIDTH, BUTTON_HIGHT);
+        // panel.add(nextShip);
+        // nextShip.addActionListener(new ActionListener() {
+        //     public void actionPerformed(final ActionEvent e) {
+        //        try {
+        //            game.nextShip();
+        //            turn.setText("Current Ship: " + game.getShip());
+        //            plot(arcStatus);
+        //        } catch (IndexOutOfBoundsException e1) {
+        //            turn.setText("End of Round: Select Next Turn");
+        //        }
+        //     }
+        // });
 
-        st = new ImageIcon("images/Attacks.png");
-        JButton beginFiring = new JButton(st);
-        beginFiring.setBounds(BUTTON_COL_7, BUTTON_ROW_2, BUTTON_WIDTH, BUTTON_HIGHT);
-        panel.add(beginFiring);
-        beginFiring.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                try {
-                    game.beginFiring();
-                    turn.setText("Current Ship: " + game.getShip());
-                    plot(true);
-                } catch (IndexOutOfBoundsException e1) {
-                    turn.setText("End of Round: Select Next Turn");
-                }
-            }
-        });
+        // st = new ImageIcon("images/Attacks.png");
+        // JButton beginFiring = new JButton(st);
+        // beginFiring.setBounds(BUTTON_COL_7, BUTTON_ROW_2, BUTTON_WIDTH, BUTTON_HIGHT);
+        // panel.add(beginFiring);
+        // beginFiring.addActionListener(new ActionListener() {
+        //     public void actionPerformed(final ActionEvent e) {
+        //         try {
+        //             game.beginFiring();
+        //             turn.setText("Current Ship: " + game.getShip());
+        //             plot(arcStatus);
+        //         } catch (IndexOutOfBoundsException e1) {
+        //             turn.setText("End of Round: Select Next Turn");
+        //         }
+        //     }
+        // });
 
-        st = new ImageIcon("images/NextShot.png");
-        JButton nextShot = new JButton(st);
-        nextShot.setBounds(BUTTON_COL_7, BUTTON_ROW_4, BUTTON_WIDTH, BUTTON_HIGHT);
-        panel.add(nextShot);
-        nextShot.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                try {
-                    game.nextShot();
-                    turn.setText("Current Ship: " + game.getShip());
-                    plot(true);
-                } catch (IndexOutOfBoundsException e1) {
-                    turn.setText("End of Round: Select Next Turn");
-                }
-            }
-        });
+        // st = new ImageIcon("images/NextShot.png");
+        // JButton nextShot = new JButton(st);
+        // nextShot.setBounds(BUTTON_COL_7, BUTTON_ROW_4, BUTTON_WIDTH, BUTTON_HIGHT);
+        // panel.add(nextShot);
+        // nextShot.addActionListener(new ActionListener() {
+        //     public void actionPerformed(final ActionEvent e) {
+        //         try {
+        //             game.nextShot();
+        //             turn.setText("Current Ship: " + game.getShip());
+        //             plot(arcStatus);
+        //         } catch (IndexOutOfBoundsException e1) {
+        //             turn.setText("End of Round: Select Next Turn");
+        //         }
+        //     }
+        // });
 
         st = new ImageIcon("images/Undo.png");
         JButton undoMove = new JButton(st);
@@ -452,7 +478,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         undoMove.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 game.undo();
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -463,6 +489,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         removeShip.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                game.removeShip();
+               plot(arcStatus);
             }
         });
 
@@ -473,7 +500,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         ut1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(5,1);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -484,7 +511,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         ut2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(5,2);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -495,7 +522,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         ut3.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(5,3);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -506,7 +533,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         ut4.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(5,4);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -517,7 +544,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         ut5.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(5,5);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -528,7 +555,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         R90.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(9,1);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -539,7 +566,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         L90.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(8,1);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -550,7 +577,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         brl0.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(6,1);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -561,7 +588,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         bumpF.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(10,1);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -572,7 +599,7 @@ public class XWingGUI extends JFrame //implements ActionListener
         bumpR.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(11,1);
-                plot(false);
+                plot(arcStatus);
             }
         });
 
@@ -583,18 +610,38 @@ public class XWingGUI extends JFrame //implements ActionListener
         brr0.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 game.stepMoveShip(7,1);
-                plot(false);
+                plot(arcStatus);
+            }
+        });
+
+        Icon newbst = new ImageIcon("images/AttackButtonOff.png");
+        JButton attackToggle = new JButton(newbst);
+        attackToggle.setBounds(BUTTON_COL_5, BUTTON_ROW_6, BUTTON_WIDTH, BUTTON_HIGHT);
+        panel.add(attackToggle);
+        attackToggle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Icon newbst;
+                if (arcStatus == true) {
+                    arcStatus = false;
+                    newbst = new ImageIcon("images/AttackButtonOff.png");
+                } else {
+                    arcStatus = true;
+                    newbst = new ImageIcon("images/AttackButtonOn.png");
+                }
+                plot(arcStatus);              
+
+                attackToggle.setIcon(newbst);
             }
         });
 
         Icon bst = new ImageIcon("images/TurretOff2.png");
         JButton turret = new JButton(bst);
-        turret.setBounds(BUTTON_COL_5, BUTTON_ROW_6, BUTTON_WIDTH, BUTTON_HIGHT);
+        turret.setBounds(BUTTON_COL_6, BUTTON_ROW_6, BUTTON_WIDTH, BUTTON_HIGHT);
         panel.add(turret);
         turret.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 gb.turretToggle();
-                plot(true);
+                plot(arcStatus);
                 Icon bst;
                 if(gb.getTurret()) {
                     bst = new ImageIcon("images/TurretOn2.png");
@@ -606,12 +653,12 @@ public class XWingGUI extends JFrame //implements ActionListener
         });
         st = new ImageIcon("images/BEOff.png");
         JButton bullseye = new JButton(st);
-        bullseye.setBounds(BUTTON_COL_6, BUTTON_ROW_6, BUTTON_WIDTH, BUTTON_HIGHT);
+        bullseye.setBounds(BUTTON_COL_7, BUTTON_ROW_6, BUTTON_WIDTH, BUTTON_HIGHT);
         panel.add(bullseye);
         bullseye.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 gb.bullseyeToggle();
-                plot(true);
+                plot(arcStatus);
                 Icon bst;
                 if(gb.getBullseye()) {
                     bst = new ImageIcon("images/BEOn.png");
@@ -640,10 +687,10 @@ public class XWingGUI extends JFrame //implements ActionListener
         lb1.setFont(newFont);
         lb2.setFont(newFont);
         lb3.setFont(newFont);
-        nextShip.setFont(newFont2);
-        nextTurn.setFont(newFont2);
-        beginFiring.setFont(newFont);
-        nextShot.setFont(newFont);
+        // nextShip.setFont(newFont2);
+        // nextTurn.setFont(newFont2);
+        // beginFiring.setFont(newFont);
+        // nextShot.setFont(newFont);
         R90.setFont(newFont);
         L90.setFont(newFont);
 
@@ -666,7 +713,7 @@ public class XWingGUI extends JFrame //implements ActionListener
             // FIX ME: use your database object
             game.readSheet(filename);
 
-            plot(false);
+            plot(arcStatus);
 
         }
     }
@@ -760,6 +807,8 @@ public class XWingGUI extends JFrame //implements ActionListener
             }
             turn.setText("Current Ship: " + game.getShip());
             message.setText(game.getMessage());
+            repaint();
+
         }
     }
 
