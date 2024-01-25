@@ -1,8 +1,10 @@
 ﻿Ship Name,X-Location,Y-Location,Bearing,Size,team
-Obsidian,35,5,0,4,0
-Saber Tie,80,5,0,4,0
-Royal Tie,73,5,0,4,0
-Luke,65,70,180,4,1
-Ten Numb,35,70,180,4,1
-Boba Fett,28,5,0,8,0
-Han Solo,50,70,180,8,1
+Falcon,35,5,0,8,1
+B-wing,80,5,0,4,1
+A-wing,73,5,0,4,1
+X-wing,73,5,0,4,1
+Acd. 1,65,70,180,4,0
+Acd. 2,35,70,180,4,0
+Obsid,50,70,180,4,0
+Saber,35,70,180,4,0
+1st O,50,70,180,4,0
