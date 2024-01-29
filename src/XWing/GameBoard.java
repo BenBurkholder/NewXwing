@@ -503,6 +503,16 @@ public class GameBoard extends JPanel
                 g.drawLine(l_x1, l_ydist - l_y1, l_xc, l_ydist - l_yc);
                 g.drawLine(l_x2, l_ydist - l_y2, l_xc, l_ydist - l_yc);
 
+                //Testing these lines
+                if(arcVis==false){
+                        if (ship == currentBoard.get(turn)){
+                                int tempBase = ship.getBase();
+                                int tempX = (int) ((ship.getXLoc() - (tempBase / 2)-2)*CM);
+                                int tempY = (int) ((ship.getYLoc() + (tempBase / 2)+2)*CM);
+                                g.drawOval(tempX,l_ydist - tempY,(int)((tempBase+4)*CM),(int)((tempBase+4)*CM));
+                        }
+                }
+
 
             }
         }
